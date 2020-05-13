@@ -1,5 +1,5 @@
 # Telegram-Currency-Exchange-Bot
-This telegram bot helps in currency exchange. Can be found in telegram as "@saran_jarvis_bot".
+This telegram bot helps in currency exchange and getting weather report. Can be found in telegram as "@saran_jarvis_bot".
 
 ## Author 
 Saran Sappa

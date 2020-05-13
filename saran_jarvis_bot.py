@@ -2,7 +2,7 @@ import telebot
 import time
 from forex_python.converter import CurrencyRates
 c = CurrencyRates()
-bot_token = '1218807901:AAHA8XsR-ziVK6jtToLebY43f2TVTSZ-hM0'
+bot_token = <your_bot_token> # Please write your private bit token
 
 bot = telebot.TeleBot(token = bot_token)
 
