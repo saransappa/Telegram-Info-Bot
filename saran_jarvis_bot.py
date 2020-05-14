@@ -1,9 +1,12 @@
 import telebot
 import time
+import json
 from forex_python.converter import CurrencyRates
-c = CurrencyRates()
-bot_token = <your_bot_token> # Please write your private bit token
+from newsapi import NewsApiClient
 
+c = CurrencyRates()
+bot_token = <your_telegram_bot_token>
+news_api_key = <your_newsapi_token>
 bot = telebot.TeleBot(token = bot_token)
 
 @bot.message_handler(commands=['start'])
@@ -46,11 +49,11 @@ PHP	   -->    Philippine peso
 SGD	   -->    Singapore dollar
 THB	   -->    Thai baht
 ZAR	   -->    South African rand"""
-    bot.reply_to(message,msg+'\n\n\nTo use this bot, send the request in the following format(without brackets): \n "/currency <from_currency_code> <to_currency_code> <value_in_from_currency>"\n\nEnter "/source" (without quotes) to see my source. \n\n Use "/weather <location_name>" (State can be written in short form if there are more cities with same name. State should be separated with a comma but there should be no spaces.) to get the weather report. \n\n Use "/ping" to check the status of the bot.')
+    bot.reply_to(message,msg+'\n\n\nTo use this bot, send the request in the following format(without brackets): \n "/currency <from_currency_code> <to_currency_code> <value_in_from_currency>"\n\nEnter "/source" (without quotes) to see my source. \n\n Use "/weather <location_name>" (State can be written in short form if there are more cities with same name. State should be separated with a comma but there should be no spaces.) to get the weather report. \n\n Use "/ping" to check the status of the bot. \n\n Use "/news" to get top 10 news headlines. \n\n Use "/name" to get your name.')
 
 @bot.message_handler(commands=['source'])
 def send_source(message):
-    bot.reply_to(message,"For currency exchange: https://ratesapi.io/ \n For weather report: https://wttr.in")
+    bot.reply_to(message,"For currency exchange: https://ratesapi.io/ \n For weather report: https://wttr.in/ \n For news: https://newsapi.org/")
 
 @bot.message_handler(commands=["ping"])
 def on_ping(message):
@@ -60,6 +63,22 @@ def on_ping(message):
 def send_name(message):
     bot.reply_to(message,"Your name is "+message.chat.first_name+" "+message.chat.last_name)
 
+@bot.message_handler(commands=["news"])
+def send_news(message):
+    newsapi = NewsApiClient(api_key=news_api_key)
+    try:
+        top_headlines = newsapi.get_top_headlines()
+        str_news = ""
+        for i in range(10):
+            str_news+=str(i+1)+ ". Title - " + top_headlines["articles"][i]["title"]+"\n\n"
+            str_news+="Description - "+top_headlines["articles"][i]["description"]+"\n\n"
+            str_news+="url - "+top_headlines["articles"][i]["url"]+"\n"
+            str_news+="\n\n\n"    
+        bot.reply_to(message,str_news )
+    except:
+        bot.reply_to(message,"Please try again later.")
+
+    
 
 @bot.message_handler(commands=['weather'])
 def send_weather(message):
@@ -87,4 +106,4 @@ while True:
     try:
         bot.polling()
     except Exception:
-        time.sleep(15)
+        time.sleep(1)
