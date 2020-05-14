@@ -7,3 +7,4 @@ Saran Sappa
 ## Requirements
 + [pyTelegramBotAPI](https://pypi.org/project/pyTelegramBotAPI/)
 + [forex-python](https://pypi.org/project/forex-python/)
++ [newsapi-python](https://pypi.org/project/newsapi-python/)
